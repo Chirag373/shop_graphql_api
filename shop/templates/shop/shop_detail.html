@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ shop.name }}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2>{{ shop.name }}</h2>
+    </div>
+
+    <div class="info-box">
+        <strong>Address</strong>
+        {{ shop.address }}
+    </div>
+
+    {% if shop.emails %}
+    <div class="info-box">
+        <strong>Emails</strong>
+        {% for email in shop.emails %}
+            <div><a href="mailto:{{ email }}">{{ email }}</a></div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if shop.phones %}
+    <div class="info-box">
+        <strong>Phone Numbers</strong>
+        {% for phone in shop.phones %}
+            <div><a href="tel:{{ phone }}">{{ phone }}</a></div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="info-box">
+        <strong>Created</strong>
+        {{ shop.created_at|date:"M d, Y" }}
+    </div>
+
+    <div class="card-footer">
+        <a href="{% url 'shop_list' %}" class="btn btn-secondary">Back</a>
+        <a href="{% url 'shop_update' shop.pk %}" class="btn btn-primary">Edit</a>
+        <a href="{% url 'shop_delete' shop.pk %}" class="btn btn-danger">Delete</a>
+    </div>
+</div>
+{% endblock %}

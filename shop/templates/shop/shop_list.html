@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}All Shops - Shop Management{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2>Shops</h2>
+        <a href="{% url 'shop_create' %}" class="btn btn-primary">New Shop</a>
+    </div>
+
+    {% if shops %}
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Emails</th>
+                <th>Phones</th>
+                <th>Created</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for shop in shops %}
+            <tr>
+                <td><strong>{{ shop.name }}</strong></td>
+                <td>{{ shop.address|truncatewords:6 }}</td>
+                <td>{{ shop.emails|length }}</td>
+                <td>{{ shop.phones|length }}</td>
+                <td>{{ shop.created_at|date:"M d, Y" }}</td>
+                <td>
+                    <div class="flex flex-wrap">
+                        <a href="{% url 'shop_detail' shop.pk %}" class="btn btn-small">View</a>
+                        <a href="{% url 'shop_update' shop.pk %}" class="btn btn-small">Edit</a>
+                        <a href="{% url 'shop_delete' shop.pk %}" class="btn btn-danger btn-small">Delete</a>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="empty-state">
+        <h2>No shops yet</h2>
+        <p>Create your first shop to get started.</p>
+        <a href="{% url 'shop_create' %}" class="btn btn-primary">New Shop</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
