@@ -1,3 +1,9 @@
+
+
+
+<img width="1920" height="875" alt="Screenshot 2026-04-18 at 9 49 39 PM" src="https://github.com/user-attachments/assets/d17cbb91-8e65-49ba-be17-02c1512b32ac" />
+
+
 # Shop GraphQL API
 
 A Django application with a responsive CRUD UI for managing shops. The web interface uses the GraphQL API internally, providing a unified data layer for both UI and external API consumers.
