@@ -22,7 +22,8 @@ def shop_list(request):
     result = schema.execute(query)
     
     if result.errors:
-        messages.error(request, 'Failed to fetch shops')
+        error_msg = str(result.errors[0]) if result.errors else 'Unknown error'
+        messages.error(request, f'Error: {error_msg}')
         shops = []
     else:
         shops = result.data['allShops'] if result.data else []

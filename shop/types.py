@@ -11,7 +11,9 @@ class ShopType(DjangoObjectType):
         fields = ("id", "name", "emails", "phones", "address", "created_at", "updated_at")
 
     def resolve_emails(self, info):
-        return self.emails or []
+        emails = self.emails
+        return emails if emails and isinstance(emails, list) else []
     
     def resolve_phones(self, info):
-        return self.phones or []
+        phones = self.phones
+        return phones if phones and isinstance(phones, list) else []
