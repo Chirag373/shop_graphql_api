@@ -33,13 +33,13 @@
 
     <div class="info-box">
         <strong>Created</strong>
-        {{ shop.created_at|date:"M d, Y" }}
+        {{ shop.createdAt|date:"M d, Y" }}
     </div>
 
     <div class="card-footer">
         <a href="{% url 'shop_list' %}" class="btn btn-secondary">Back</a>
-        <a href="{% url 'shop_update' shop.pk %}" class="btn btn-primary">Edit</a>
-        <a href="{% url 'shop_delete' shop.pk %}" class="btn btn-danger">Delete</a>
+        <a href="{% url 'shop_update' shop.id %}" class="btn btn-primary">Edit</a>
+        <a href="{% url 'shop_delete' shop.id %}" class="btn btn-danger">Delete</a>
     </div>
 </div>
 {% endblock %}

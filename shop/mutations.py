@@ -3,35 +3,44 @@ from .types import ShopType
 from .models import Shop
 from .validation import validate_emails, validate_phones
 
+import graphene
+from .types import ShopType
+from .models import Shop
+from .validation import validate_emails, validate_phones
+
 class CreateShop(graphene.Mutation):
     class Arguments:
         name = graphene.String(required=True)
-        emails = graphene.List(graphene.String, required=True)
-        phones = graphene.List(graphene.String, required=True)
+        emails = graphene.List(graphene.String, required=False)
+        phones = graphene.List(graphene.String, required=False)
         address = graphene.String(required=True)
 
     shop = graphene.Field(ShopType)
     success = graphene.Boolean()
     message = graphene.String()
 
-    def mutate(self, info, name, emails, phones, address):
-        # Validate emails
-        valid_emails, email_msg = validate_emails(emails)
-        if not valid_emails:
-            return CreateShop(
-                shop=None,
-                success=False,
-                message=email_msg
-            )
+    def mutate(self, info, name, address, emails=None, phones=None):
+        emails = emails or []
+        phones = phones or []
         
-        # Validate phones
-        valid_phones, phone_msg = validate_phones(phones)
-        if not valid_phones:
-            return CreateShop(
-                shop=None,
-                success=False,
-                message=phone_msg
-            )
+        # Validate only if provided
+        if emails:
+            valid_emails, email_msg = validate_emails(emails)
+            if not valid_emails:
+                return CreateShop(
+                    shop=None,
+                    success=False,
+                    message=email_msg
+                )
+        
+        if phones:
+            valid_phones, phone_msg = validate_phones(phones)
+            if not valid_phones:
+                return CreateShop(
+                    shop=None,
+                    success=False,
+                    message=phone_msg
+                )
         
         shop = Shop.objects.create(
             name=name,
@@ -49,7 +58,7 @@ class UpdateShop(graphene.Mutation):
 
     class Arguments:
         id      = graphene.ID(required=True)
-        name    = graphene.String()           # all optional
+        name    = graphene.String()
         emails  = graphene.List(graphene.String)
         phones  = graphene.List(graphene.String)
         address = graphene.String()
@@ -63,6 +72,18 @@ class UpdateShop(graphene.Mutation):
             shop = Shop.objects.get(pk=id)
         except Shop.DoesNotExist:
             return UpdateShop(shop=None, success=False, message=f"Shop with id {id} not found.")
+
+        # Validate emails if provided
+        if emails:
+            valid_emails, email_msg = validate_emails(emails)
+            if not valid_emails:
+                return UpdateShop(shop=None, success=False, message=email_msg)
+
+        # Validate phones if provided
+        if phones:
+            valid_phones, phone_msg = validate_phones(phones)
+            if not valid_phones:
+                return UpdateShop(shop=None, success=False, message=phone_msg)
 
         if name    is not None: shop.name    = name
         if emails  is not None: shop.emails  = emails

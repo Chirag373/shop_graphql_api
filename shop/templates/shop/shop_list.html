@@ -26,14 +26,14 @@
             <tr>
                 <td><strong>{{ shop.name }}</strong></td>
                 <td>{{ shop.address|truncatewords:6 }}</td>
-                <td>{{ shop.emails|length }}</td>
-                <td>{{ shop.phones|length }}</td>
-                <td>{{ shop.created_at|date:"M d, Y" }}</td>
+                <td>{% if shop.emails %}{{ shop.emails|length }}{% else %}0{% endif %}</td>
+                <td>{% if shop.phones %}{{ shop.phones|length }}{% else %}0{% endif %}</td>
+                <td>{{ shop.createdAt|date:"M d, Y" }}</td>
                 <td>
                     <div class="flex flex-wrap">
-                        <a href="{% url 'shop_detail' shop.pk %}" class="btn btn-small">View</a>
-                        <a href="{% url 'shop_update' shop.pk %}" class="btn btn-small">Edit</a>
-                        <a href="{% url 'shop_delete' shop.pk %}" class="btn btn-danger btn-small">Delete</a>
+                        <a href="{% url 'shop_detail' shop.id %}" class="btn btn-small">View</a>
+                        <a href="{% url 'shop_update' shop.id %}" class="btn btn-small">Edit</a>
+                        <a href="{% url 'shop_delete' shop.id %}" class="btn btn-danger btn-small">Delete</a>
                     </div>
                 </td>
             </tr>

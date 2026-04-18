@@ -19,7 +19,7 @@
 
     <form method="POST" class="card-footer">
         {% csrf_token %}
-        <a href="{% url 'shop_detail' shop.pk %}" class="btn btn-secondary">Cancel</a>
+        <a href="{% url 'shop_detail' shop.id %}" class="btn btn-secondary">Cancel</a>
         <button type="submit" class="btn btn-danger" onclick="return confirm('Permanently delete this shop?')">
             Delete
         </button>
